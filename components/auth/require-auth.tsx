@@ -1,11 +1,10 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { Loader2 } from "lucide-react";
+import { useAuth } from "@/components/auth/auth-provider";
 import { getLoginHref } from "@/config/routes";
-import { SESSION_CHANGE_EVENT } from "@/lib/auth/navigation";
-import { hasValidSession } from "@/lib/auth/session";
 
 type RequireAuthProps = {
   children: ReactNode;
@@ -14,25 +13,14 @@ type RequireAuthProps = {
 export function RequireAuth({ children }: RequireAuthProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const [allowed, setAllowed] = useState<boolean | null>(null);
+  const { ready, isAuthed } = useAuth();
 
   useEffect(() => {
-    function sync() {
-      if (hasValidSession()) {
-        setAllowed(true);
-        return;
-      }
+    if (!ready || isAuthed) return;
+    router.replace(getLoginHref(pathname));
+  }, [ready, isAuthed, pathname, router]);
 
-      setAllowed(false);
-      router.replace(getLoginHref(pathname));
-    }
-
-    sync();
-    window.addEventListener(SESSION_CHANGE_EVENT, sync);
-    return () => window.removeEventListener(SESSION_CHANGE_EVENT, sync);
-  }, [pathname, router]);
-
-  if (allowed !== true) {
+  if (!ready || !isAuthed) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
         <Loader2 className="h-6 w-6 animate-spin text-logo-green-600" />

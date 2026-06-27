@@ -1,26 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { SESSION_CHANGE_EVENT } from "@/lib/auth/navigation";
-import { isAuthenticated } from "@/lib/auth/session";
+import { useAuth } from "@/components/auth/auth-provider";
 
 export function AuthSlot({ children }: { children: React.ReactNode }) {
-  const [hidden, setHidden] = useState(false);
+  const { ready, hasToken } = useAuth();
 
-  useEffect(() => {
-    function sync() {
-      setHidden(isAuthenticated());
-    }
-
-    sync();
-    window.addEventListener(SESSION_CHANGE_EVENT, sync);
-
-    return () => {
-      window.removeEventListener(SESSION_CHANGE_EVENT, sync);
-    };
-  }, []);
-
-  if (hidden) {
+  if (ready && hasToken) {
     return null;
   }
 

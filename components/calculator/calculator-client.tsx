@@ -24,8 +24,29 @@ import { SESSION_CHANGE_EVENT, notifySessionChange } from "@/lib/auth/navigation
 import { clearSession } from "@/lib/auth/session";
 import { getLoginHref } from "@/config/routes";
 import { CalculatorBackground } from "./calculator-background";
-import { CalculatorForm } from "./calculator-form";
 import { CalculatorHero } from "./calculator-hero";
+
+const CalculatorForm = dynamic(
+  () =>
+    import("./calculator-form").then((m) => ({
+      default: m.CalculatorForm,
+    })),
+  {
+    loading: () => (
+      <div className="shadow-clinical animate-pulse rounded-2xl border border-clinical bg-white/80 p-6 sm:p-8">
+        <div className="h-6 w-48 rounded-full bg-un-blue-100" />
+        <div className="mt-6 space-y-4">
+          <div className="h-10 rounded-full bg-ghost-white-200" />
+          <div className="h-10 rounded-full bg-ghost-white-200" />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="h-10 rounded-full bg-ghost-white-200" />
+            <div className="h-10 rounded-full bg-ghost-white-200" />
+          </div>
+        </div>
+      </div>
+    ),
+  },
+);
 
 const CalculatorResultsPanel = dynamic(
   () =>

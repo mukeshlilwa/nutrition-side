@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, LogOut } from "lucide-react";
-import { clearSession, getStoredUser } from "@/lib/auth/session";
-import { SESSION_CHANGE_EVENT } from "@/lib/auth/navigation";
+import { useAuth } from "@/components/auth/auth-provider";
+import { notifySessionChange } from "@/lib/auth/navigation";
+import { clearSession } from "@/lib/auth/session";
 import { buttonClassName } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import type { UserResponse } from "@/types/api";
 
 type HeaderAuthProps = {
   variant?: "bar" | "menu";
@@ -18,23 +18,8 @@ type HeaderAuthProps = {
 export function HeaderAuth({ variant = "bar", onNavigate }: HeaderAuthProps) {
   const router = useRouter();
   const menuRef = useRef<HTMLDivElement>(null);
-  const [user, setUser] = useState<UserResponse | null>(null);
-  const [ready, setReady] = useState(false);
+  const { ready, user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    function syncUser() {
-      setUser(getStoredUser());
-      setReady(true);
-    }
-
-    syncUser();
-    window.addEventListener(SESSION_CHANGE_EVENT, syncUser);
-
-    return () => {
-      window.removeEventListener(SESSION_CHANGE_EVENT, syncUser);
-    };
-  }, []);
 
   useEffect(() => {
     if (!menuOpen || variant !== "bar") return;
@@ -62,11 +47,10 @@ export function HeaderAuth({ variant = "bar", onNavigate }: HeaderAuthProps) {
 
   function handleLogout() {
     clearSession();
-    setUser(null);
+    notifySessionChange();
     setMenuOpen(false);
     onNavigate?.();
     router.replace("/");
-    router.refresh();
   }
 
   if (!ready) {

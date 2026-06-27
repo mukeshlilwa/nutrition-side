@@ -1,31 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, type ComponentProps } from "react";
+import type { ComponentProps } from "react";
+import { useAuth } from "@/components/auth/auth-provider";
 import { getLoginHref, isProtectedPath } from "@/config/routes";
-import { SESSION_CHANGE_EVENT } from "@/lib/auth/navigation";
-import { hasValidSession } from "@/lib/auth/session";
 
 type ProtectedLinkProps = ComponentProps<typeof Link>;
 
-export function ProtectedLink({ href, ...props }: ProtectedLinkProps) {
-  const [resolvedHref, setResolvedHref] = useState(href);
+function getPath(href: ProtectedLinkProps["href"]) {
+  return typeof href === "string" ? href : (href.pathname ?? "/");
+}
 
-  useEffect(() => {
-    function sync() {
-      const path = typeof href === "string" ? href : href.pathname ?? "/";
-      if (hasValidSession() || !isProtectedPath(path)) {
-        setResolvedHref(href);
-        return;
-      }
+export function ProtectedLink({ href, prefetch, ...props }: ProtectedLinkProps) {
+  const { ready, isAuthed } = useAuth();
+  const path = getPath(href);
+  const protectedRoute = isProtectedPath(path);
 
-      setResolvedHref(getLoginHref(path));
-    }
+  const resolvedHref =
+    ready && protectedRoute && !isAuthed ? getLoginHref(path) : href;
 
-    sync();
-    window.addEventListener(SESSION_CHANGE_EVENT, sync);
-    return () => window.removeEventListener(SESSION_CHANGE_EVENT, sync);
-  }, [href]);
+  const shouldPrefetch =
+    prefetch ?? (ready && (!protectedRoute || isAuthed));
 
-  return <Link href={resolvedHref} {...props} />;
+  return <Link href={resolvedHref} prefetch={shouldPrefetch} {...props} />;
 }

@@ -1,3 +1,4 @@
+export { AuthProvider, useAuth } from "./auth-provider";
 export { GetStartedButton } from "./get-started-button";
 export { ProtectedLink } from "./protected-link";
 export { RedirectIfAuthed } from "./redirect-if-authed";

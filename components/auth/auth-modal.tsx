@@ -80,10 +80,9 @@ export function AuthModal({
             src={authModalBackground.src}
             alt={authModalBackground.alt}
             fill
-            quality={95}
+            quality={75}
             className="object-cover object-left"
             sizes="(max-width: 768px) 440px, 920px"
-            priority
           />
         </div>
 

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { HeaderAuth } from "@/components/layout/header-auth";
 import { navLinks } from "@/config/site";
@@ -74,7 +74,7 @@ export function HeaderNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    setMobileOpen(false);
+    startTransition(() => setMobileOpen(false));
   }, [pathname]);
 
   useEffect(() => {

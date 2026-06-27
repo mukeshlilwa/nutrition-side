@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import { AuthProvider } from "@/components/auth/auth-provider";
 import { AuthSlot } from "@/components/auth/auth-slot";
 import { Header, SiteFooter } from "@/components/layout";
 import { siteConfig } from "@/config/site";
@@ -35,10 +36,12 @@ export default function RootLayout({
         className="flex min-h-full flex-col bg-ghost-white-100 text-oxford-blue-500"
         suppressHydrationWarning
       >
-        <Header />
-        <main className="main-content flex-1">{children}</main>
-        <SiteFooter />
-        <AuthSlot>{auth}</AuthSlot>
+        <AuthProvider>
+          <Header />
+          <main className="main-content flex-1">{children}</main>
+          <SiteFooter />
+          <AuthSlot>{auth}</AuthSlot>
+        </AuthProvider>
       </body>
     </html>
   );
