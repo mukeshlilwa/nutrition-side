@@ -1,0 +1,807 @@
+@import "tailwindcss";
+
+/* ── Brand palette ──────────────────────────────────────────────
+   Oxford Blue        #001B2E
+   Ghost white        #F7F7FF
+   Brunswick green    #224439
+   Logo green         #00704A  (from TNC logo)
+   United Nations Blue #5899E2
+   Chocolate cosmos   #4A051C
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* Oxford Blue */
+  --oxford-blue-50: #e6eaed;
+  --oxford-blue-100: #ccd5db;
+  --oxford-blue-200: #99aab7;
+  --oxford-blue-300: #668093;
+  --oxford-blue-400: #33556f;
+  --oxford-blue-500: #001b2e;
+  --oxford-blue-600: #001625;
+  --oxford-blue-700: #00101c;
+  --oxford-blue-800: #000b12;
+  --oxford-blue-900: #000509;
+
+  /* Ghost white */
+  --ghost-white-50: #ffffff;
+  --ghost-white-100: #f7f7ff;
+  --ghost-white-200: #ededf5;
+  --ghost-white-300: #e3e3eb;
+  --ghost-white-400: #d9d9e1;
+  --ghost-white-500: #cfcfd7;
+
+  /* Logo green — primary brand (from TNC logo) */
+  --logo-green-50: #e8f5f0;
+  --logo-green-100: #d1ebe1;
+  --logo-green-200: #a3d7c3;
+  --logo-green-300: #5cb896;
+  --logo-green-400: #00915e;
+  --logo-green-500: #00704a;
+  --logo-green-600: #005c3d;
+  --logo-green-700: #00472f;
+  --logo-green-800: #003321;
+  --logo-green-900: #001e14;
+
+  /* Brunswick green */
+  --brunswick-green-50: #e9f0ed;
+  --brunswick-green-100: #d3e1db;
+  --brunswick-green-200: #a7c3b7;
+  --brunswick-green-300: #7ba593;
+  --brunswick-green-400: #4f876f;
+  --brunswick-green-500: #224439;
+  --brunswick-green-600: #1b362e;
+  --brunswick-green-700: #142922;
+  --brunswick-green-800: #0e1b17;
+  --brunswick-green-900: #070e0b;
+
+  /* United Nations Blue */
+  --un-blue-50: #eef5fc;
+  --un-blue-100: #ddebf9;
+  --un-blue-200: #bbd7f3;
+  --un-blue-300: #99c3ed;
+  --un-blue-400: #77afe7;
+  --un-blue-500: #5899e2;
+  --un-blue-600: #467ab5;
+  --un-blue-700: #355c88;
+  --un-blue-800: #233d5a;
+  --un-blue-900: #121f2d;
+
+  /* Chocolate cosmos */
+  --chocolate-cosmos-50: #f5e6eb;
+  --chocolate-cosmos-100: #ebccd7;
+  --chocolate-cosmos-200: #d799af;
+  --chocolate-cosmos-300: #c36687;
+  --chocolate-cosmos-400: #af335f;
+  --chocolate-cosmos-500: #4a051c;
+  --chocolate-cosmos-600: #3b0416;
+  --chocolate-cosmos-700: #2c0310;
+  --chocolate-cosmos-800: #1e020b;
+  --chocolate-cosmos-900: #0f0105;
+
+  /* Semantic tokens (mapped to brand) */
+  --background: var(--ghost-white-100);
+  --foreground: var(--oxford-blue-500);
+
+  --card: var(--ghost-white-50);
+  --card-foreground: var(--oxford-blue-500);
+
+  --primary: var(--logo-green-500);
+  --primary-foreground: var(--ghost-white-50);
+  --primary-muted: var(--logo-green-100);
+
+  --secondary: var(--un-blue-100);
+  --secondary-foreground: var(--oxford-blue-500);
+
+  --muted: var(--ghost-white-200);
+  --muted-foreground: var(--oxford-blue-400);
+
+  --accent: var(--logo-green-50);
+  --accent-foreground: var(--logo-green-700);
+
+  --destructive: var(--chocolate-cosmos-500);
+  --destructive-foreground: var(--ghost-white-100);
+
+  --border: var(--ghost-white-300);
+  --input: var(--ghost-white-300);
+  --ring: var(--logo-green-500);
+}
+
+@theme inline {
+  /* Brand — Oxford Blue */
+  --color-oxford-blue-50: var(--oxford-blue-50);
+  --color-oxford-blue-100: var(--oxford-blue-100);
+  --color-oxford-blue-200: var(--oxford-blue-200);
+  --color-oxford-blue-300: var(--oxford-blue-300);
+  --color-oxford-blue-400: var(--oxford-blue-400);
+  --color-oxford-blue-500: var(--oxford-blue-500);
+  --color-oxford-blue-600: var(--oxford-blue-600);
+  --color-oxford-blue-700: var(--oxford-blue-700);
+  --color-oxford-blue-800: var(--oxford-blue-800);
+  --color-oxford-blue-900: var(--oxford-blue-900);
+
+  /* Brand — Ghost white */
+  --color-ghost-white-50: var(--ghost-white-50);
+  --color-ghost-white-100: var(--ghost-white-100);
+  --color-ghost-white-200: var(--ghost-white-200);
+  --color-ghost-white-300: var(--ghost-white-300);
+  --color-ghost-white-400: var(--ghost-white-400);
+  --color-ghost-white-500: var(--ghost-white-500);
+
+  /* Brand — Logo green */
+  --color-logo-green-50: var(--logo-green-50);
+  --color-logo-green-100: var(--logo-green-100);
+  --color-logo-green-200: var(--logo-green-200);
+  --color-logo-green-300: var(--logo-green-300);
+  --color-logo-green-400: var(--logo-green-400);
+  --color-logo-green-500: var(--logo-green-500);
+  --color-logo-green-600: var(--logo-green-600);
+  --color-logo-green-700: var(--logo-green-700);
+  --color-logo-green-800: var(--logo-green-800);
+  --color-logo-green-900: var(--logo-green-900);
+
+  /* Brand — Brunswick green */
+  --color-brunswick-green-50: var(--brunswick-green-50);
+  --color-brunswick-green-100: var(--brunswick-green-100);
+  --color-brunswick-green-200: var(--brunswick-green-200);
+  --color-brunswick-green-300: var(--brunswick-green-300);
+  --color-brunswick-green-400: var(--brunswick-green-400);
+  --color-brunswick-green-500: var(--brunswick-green-500);
+  --color-brunswick-green-600: var(--brunswick-green-600);
+  --color-brunswick-green-700: var(--brunswick-green-700);
+  --color-brunswick-green-800: var(--brunswick-green-800);
+  --color-brunswick-green-900: var(--brunswick-green-900);
+
+  /* Brand — United Nations Blue */
+  --color-un-blue-50: var(--un-blue-50);
+  --color-un-blue-100: var(--un-blue-100);
+  --color-un-blue-200: var(--un-blue-200);
+  --color-un-blue-300: var(--un-blue-300);
+  --color-un-blue-400: var(--un-blue-400);
+  --color-un-blue-500: var(--un-blue-500);
+  --color-un-blue-600: var(--un-blue-600);
+  --color-un-blue-700: var(--un-blue-700);
+  --color-un-blue-800: var(--un-blue-800);
+  --color-un-blue-900: var(--un-blue-900);
+
+  /* Brand — Chocolate cosmos */
+  --color-chocolate-cosmos-50: var(--chocolate-cosmos-50);
+  --color-chocolate-cosmos-100: var(--chocolate-cosmos-100);
+  --color-chocolate-cosmos-200: var(--chocolate-cosmos-200);
+  --color-chocolate-cosmos-300: var(--chocolate-cosmos-300);
+  --color-chocolate-cosmos-400: var(--chocolate-cosmos-400);
+  --color-chocolate-cosmos-500: var(--chocolate-cosmos-500);
+  --color-chocolate-cosmos-600: var(--chocolate-cosmos-600);
+  --color-chocolate-cosmos-700: var(--chocolate-cosmos-700);
+  --color-chocolate-cosmos-800: var(--chocolate-cosmos-800);
+  --color-chocolate-cosmos-900: var(--chocolate-cosmos-900);
+
+  /* Semantic */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-muted: var(--primary-muted);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+.hero-fullscreen {
+  padding-top: 5.75rem;
+}
+
+@media (min-width: 640px) {
+  .hero-fullscreen {
+    padding-top: 6.25rem;
+  }
+}
+
+/* ── Typography utilities ─────────────────────────────────────── */
+
+.text-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--logo-green-600);
+}
+
+.text-body {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--oxford-blue-400);
+}
+
+.text-body-sm {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--oxford-blue-400);
+}
+
+.text-caption {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--oxford-blue-300);
+}
+
+.text-accent-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--logo-green-500) 0%,
+    var(--logo-green-400) 45%,
+    var(--un-blue-600) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-accent-logo {
+  color: var(--logo-green-500);
+}
+
+/* ── Professional gradients (medical / clinical) ──────────────── */
+
+.bg-gradient-hero {
+  background-color: var(--ghost-white-100);
+  background-image:
+    radial-gradient(
+      ellipse 80% 60% at 100% 0%,
+      color-mix(in srgb, var(--logo-green-100) 80%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 0% 100%,
+      color-mix(in srgb, var(--un-blue-100) 60%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 40% 35% at 70% 60%,
+      color-mix(in srgb, var(--logo-green-50) 90%, transparent),
+      transparent
+    ),
+    linear-gradient(180deg, var(--ghost-white-100) 0%, var(--ghost-white-50) 100%);
+}
+
+.bg-gradient-section-clinical {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--logo-green-50) 85%, var(--ghost-white-100)) 0%,
+    color-mix(in srgb, var(--un-blue-50) 65%, var(--ghost-white-100)) 100%
+  );
+}
+
+.bg-gradient-section-soft {
+  background: linear-gradient(
+    180deg,
+    var(--ghost-white-50) 0%,
+    var(--ghost-white-100) 100%
+  );
+}
+
+.bg-gradient-cta {
+  background: linear-gradient(
+    135deg,
+    var(--logo-green-50) 0%,
+    color-mix(in srgb, var(--un-blue-50) 50%, var(--logo-green-50)) 50%,
+    var(--ghost-white-100) 100%
+  );
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(
+    135deg,
+    var(--logo-green-500) 0%,
+    var(--logo-green-600) 55%,
+    color-mix(in srgb, var(--oxford-blue-600) 25%, var(--logo-green-600)) 100%
+  );
+}
+
+.bg-gradient-primary:hover {
+  background: linear-gradient(
+    135deg,
+    var(--logo-green-600) 0%,
+    var(--logo-green-700) 100%
+  );
+}
+
+.bg-gradient-icon {
+  background: linear-gradient(
+    145deg,
+    var(--logo-green-50) 0%,
+    color-mix(in srgb, var(--un-blue-50) 70%, var(--logo-green-50)) 100%
+  );
+}
+
+/* Brand button shimmer — adapted from Uiverse beautiful-button pattern */
+.btn-brand {
+  position: relative;
+  background-size: 200% 200%;
+  transition: all 0.3s ease-in-out;
+  animation: btn-shimmer 2s ease-in-out infinite;
+}
+
+.btn-brand:not(:disabled):hover {
+  animation: btn-shimmer-fast 1s ease-in-out infinite;
+  transform: translateY(-2px);
+}
+
+.btn-brand:not(:disabled):active {
+  transform: scale(0.95);
+}
+
+.btn-brand-primary {
+  background-image: linear-gradient(
+    to bottom,
+    var(--logo-green-600),
+    var(--logo-green-500)
+  );
+  box-shadow: 0 5px 15px color-mix(in srgb, var(--logo-green-500) 22%, transparent);
+  color: var(--ghost-white-50);
+}
+
+.btn-brand-primary:not(:disabled):hover {
+  background-image: linear-gradient(
+    to bottom,
+    var(--logo-green-500),
+    var(--logo-green-400)
+  );
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--logo-green-500) 28%, transparent);
+}
+
+.btn-brand-primary:not(:disabled):active {
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--logo-green-600) 25%, transparent);
+}
+
+.btn-brand-secondary {
+  background-image: linear-gradient(
+    to bottom,
+    var(--un-blue-100),
+    var(--un-blue-200)
+  );
+  border: 1px solid var(--un-blue-200);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--un-blue-500) 12%, transparent);
+  color: var(--oxford-blue-500);
+}
+
+.btn-brand-secondary:not(:disabled):hover {
+  background-image: linear-gradient(
+    to bottom,
+    var(--un-blue-200),
+    var(--un-blue-300)
+  );
+  border-color: var(--un-blue-300);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--un-blue-500) 18%, transparent);
+}
+
+.btn-brand-outline {
+  background-image: linear-gradient(
+    to bottom,
+    var(--ghost-white-50),
+    var(--ghost-white-100)
+  );
+  border: 1px solid color-mix(in srgb, var(--logo-green-200) 50%, var(--un-blue-200));
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--oxford-blue-500) 6%, transparent);
+  color: var(--oxford-blue-500);
+}
+
+.btn-brand-outline:not(:disabled):hover {
+  background-image: linear-gradient(
+    to bottom,
+    var(--logo-green-50),
+    var(--un-blue-50)
+  );
+  border-color: var(--logo-green-400);
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--logo-green-500) 12%, transparent);
+}
+
+.btn-brand-ghost {
+  background-image: linear-gradient(
+    to bottom,
+    transparent,
+    transparent
+  );
+  box-shadow: none;
+}
+
+.btn-brand-ghost:not(:disabled):hover {
+  background-image: linear-gradient(
+    to bottom,
+    var(--un-blue-50),
+    var(--logo-green-50)
+  );
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--un-blue-500) 8%, transparent);
+}
+
+@keyframes btn-shimmer {
+  0% {
+    background-position: left top;
+  }
+
+  100% {
+    background-position: right bottom;
+  }
+}
+
+@keyframes btn-shimmer-fast {
+  0% {
+    background-position: left top;
+  }
+
+  100% {
+    background-position: right bottom;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-brand {
+    animation: none;
+  }
+
+  .btn-brand:not(:disabled):hover {
+    animation: none;
+    transform: none;
+  }
+}
+
+.bg-gradient-header {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--ghost-white-50) 96%, var(--logo-green-50)) 0%,
+    var(--ghost-white-50) 100%
+  );
+}
+
+.header-glass {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--logo-green-100) 90%, var(--logo-green-200)) 0%,
+      color-mix(in srgb, var(--logo-green-50) 85%, var(--ghost-white-100)) 44%,
+      color-mix(in srgb, var(--un-blue-100) 88%, var(--un-blue-200)) 100%
+    );
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  border: 1px solid color-mix(
+    in srgb,
+    var(--logo-green-200) 52%,
+    var(--un-blue-200)
+  );
+}
+
+.bg-gradient-logo-ring {
+  background: linear-gradient(
+    145deg,
+    var(--logo-green-400) 0%,
+    var(--logo-green-500) 40%,
+    var(--logo-green-600) 100%
+  );
+}
+
+.border-clinical {
+  border-color: color-mix(
+    in srgb,
+    var(--logo-green-200) 50%,
+    var(--un-blue-200)
+  );
+}
+
+.border-report {
+  border-color: color-mix(
+    in srgb,
+    var(--logo-green-100) 50%,
+    var(--ghost-white-300)
+  );
+}
+
+.border-report-divider {
+  border-color: color-mix(
+    in srgb,
+    var(--logo-green-100) 30%,
+    var(--ghost-white-300)
+  );
+}
+
+.bg-report-subsection {
+  background: color-mix(
+    in srgb,
+    var(--logo-green-50) 35%,
+    var(--ghost-white-50)
+  );
+}
+
+.main-content:not(:has(.hero-fullscreen)) {
+  padding-top: 5.75rem;
+}
+
+@media (min-width: 640px) {
+  .main-content:not(:has(.hero-fullscreen)) {
+    padding-top: 6.25rem;
+  }
+}
+
+.shadow-clinical {
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--oxford-blue-500) 4%, transparent),
+    0 8px 24px color-mix(in srgb, var(--logo-green-500) 8%, transparent);
+}
+
+.shadow-logo {
+  box-shadow:
+    0 4px 14px color-mix(in srgb, var(--logo-green-500) 18%, transparent),
+    0 12px 40px color-mix(in srgb, var(--oxford-blue-500) 6%, transparent);
+}
+
+.carousel-nav-btn {
+  display: inline-flex;
+  height: 2.5rem;
+  width: 2.5rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid var(--logo-green-700);
+  background: linear-gradient(
+    to bottom,
+    var(--logo-green-600),
+    var(--logo-green-500)
+  );
+  color: var(--ghost-white-50);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--logo-green-500) 22%, transparent);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.carousel-nav-btn:hover:not(:disabled) {
+  background: linear-gradient(
+    to bottom,
+    var(--logo-green-700),
+    var(--logo-green-600)
+  );
+  border-color: var(--logo-green-800);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--logo-green-500) 30%, transparent);
+}
+
+.carousel-nav-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.badge-clinical {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--logo-green-200) 80%, transparent);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--logo-green-50) 90%, var(--ghost-white-50)) 0%,
+    var(--ghost-white-50) 100%
+  );
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--logo-green-700);
+}
+
+.hero-grid-pattern {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--logo-green-200) 14%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--logo-green-200) 14%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 15%, transparent 72%);
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes features-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.features-marquee-track {
+  animation: features-marquee 38s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .features-marquee {
+    mask-image: none !important;
+  }
+
+  .features-marquee-track {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem 2rem;
+    padding-inline: 1rem;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm 12mm;
+  }
+
+  header,
+  .print\:hidden,
+  .calculator-hero,
+  .calculator-form-panel {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    font-size: 9pt;
+  }
+
+  #calculator-report,
+  .clinical-report {
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    font-size: 8.5pt;
+    line-height: 1.35;
+    color: #001b2e !important;
+  }
+
+  #calculator-report .clinical-report-body {
+    padding: 0 !important;
+  }
+
+  #calculator-report .clinical-report-head {
+    padding: 8pt 0 10pt !important;
+    background: white !important;
+    color: #001b2e !important;
+    border-bottom: 1.5pt solid #00704a !important;
+  }
+
+  #calculator-report .clinical-report-head h2 {
+    font-size: 13pt !important;
+    color: #001b2e !important;
+  }
+
+  #calculator-report .clinical-report-head p,
+  #calculator-report .clinical-report-meta {
+    font-size: 8pt !important;
+    color: #33556f !important;
+  }
+
+  #calculator-report .clinical-report-head .head-kpi {
+    background: #f7f7ff !important;
+    border: 0.5pt solid #ccd5db !important;
+    padding: 4pt 6pt !important;
+  }
+
+  #calculator-report .head-kpi .metric-value {
+    font-size: 10pt !important;
+    color: #001b2e !important;
+  }
+
+  #calculator-report .head-kpi .metric-label {
+    font-size: 6.5pt !important;
+  }
+
+  #calculator-report .metric-stat {
+    break-inside: avoid;
+  }
+
+  #calculator-report .metric-label {
+    font-size: 6.5pt !important;
+    margin-bottom: 2pt !important;
+  }
+
+  #calculator-report .metric-value {
+    font-size: 10pt !important;
+  }
+
+  #calculator-report .metric-unit {
+    font-size: 7pt !important;
+  }
+
+  #calculator-report .metric-note {
+    font-size: 7pt !important;
+    margin-top: 2pt !important;
+  }
+
+  #calculator-report .result-badge {
+    font-size: 6.5pt !important;
+    padding: 1pt 4pt !important;
+    margin-top: 2pt !important;
+  }
+
+  #calculator-report .report-section {
+    margin-bottom: 10pt !important;
+    break-inside: avoid;
+  }
+
+  #calculator-report .report-section-head {
+    margin-bottom: 5pt !important;
+    padding-bottom: 3pt !important;
+  }
+
+  #calculator-report .report-section-title {
+    font-size: 7.5pt !important;
+  }
+
+  #calculator-report .metric-cell {
+    break-inside: avoid;
+    padding: 0 !important;
+  }
+
+  #calculator-report .metric-grid {
+    gap: 4pt 8pt !important;
+    padding: 0 !important;
+    border: none !important;
+  }
+
+  #calculator-report .macro-panel,
+  #calculator-report .score-panel {
+    padding: 6pt !important;
+    break-inside: avoid;
+  }
+
+  #calculator-report .clinical-note {
+    font-size: 8pt !important;
+    padding: 5pt 6pt !important;
+    margin-top: 6pt !important;
+  }
+
+  #calculator-report .report-footer {
+    margin-top: 8pt !important;
+    font-size: 7.5pt !important;
+  }
+
+  #calculator-report .report-summary-card {
+    break-inside: avoid;
+    padding: 6pt 8pt !important;
+    border: 0.5pt solid color-mix(in srgb, var(--logo-green-100) 50%, var(--ghost-white-300)) !important;
+  }
+
+  #calculator-report .report-footer-value {
+    font-size: 9pt !important;
+  }
+}
