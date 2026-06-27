@@ -52,7 +52,7 @@ const navButtonClass = "carousel-nav-btn";
 function ArticleCard({ article }: { article: (typeof articles)[number] }) {
   return (
     <LandingCard className="h-full overflow-hidden">
-      <div className="relative h-44 w-full">
+      <div className="relative h-52 w-full sm:h-56">
         <Image
           src={article.image}
           alt={article.title}
@@ -91,7 +91,7 @@ export function ArticlesSection() {
   }, [maxIndex]);
 
   return (
-    <LandingSection tone="soft" id="articles">
+    <LandingSection tone="soft" id="articles" className="py-14 sm:py-20 lg:py-24">
       <LandingSectionHeader
         eyebrow="Evidence-Based Insights"
         title="Latest Articles & Resources"

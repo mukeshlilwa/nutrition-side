@@ -1,38 +1,28 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import { contactRateLimit } from "@/config/contact";
 import { getEmailConfig } from "@/config/email";
+import { parseContactPayload } from "@/lib/contact/validate";
 import {
   buildTeamNotificationEmail,
   buildUserConfirmationEmail,
 } from "@/lib/email/contact-emails";
-
-type ContactPayload = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  message: string;
-};
-
-function parsePayload(body: unknown): ContactPayload | null {
-  if (!body || typeof body !== "object") return null;
-
-  const data = body as Record<string, unknown>;
-  const firstName = typeof data.firstName === "string" ? data.firstName.trim() : "";
-  const lastName = typeof data.lastName === "string" ? data.lastName.trim() : "";
-  const email = typeof data.email === "string" ? data.email.trim().toLowerCase() : "";
-  const message = typeof data.message === "string" ? data.message.trim() : "";
-
-  if (!firstName || !lastName || !email || !message) return null;
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return null;
-
-  return { firstName, lastName, email, message };
-}
+import { getResendClient } from "@/lib/email/resend";
+import { getClientIp, isRateLimited } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
-  let payload: ContactPayload | null;
+  const clientIp = getClientIp(request);
+
+  if (isRateLimited(clientIp, contactRateLimit.maxRequests, contactRateLimit.windowMs)) {
+    return NextResponse.json(
+      { message: "Too many messages sent. Please try again later." },
+      { status: 429 },
+    );
+  }
+
+  let payload;
 
   try {
-    payload = parsePayload(await request.json());
+    payload = parseContactPayload(await request.json());
   } catch {
     return NextResponse.json(
       { message: "Invalid request body." },
@@ -48,8 +38,8 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { apiKey, from, to } = getEmailConfig();
-    const resend = new Resend(apiKey);
+    const { from, to } = getEmailConfig();
+    const resend = getResendClient();
     const teamEmail = buildTeamNotificationEmail(payload);
     const userEmail = buildUserConfirmationEmail(payload);
 
@@ -73,10 +63,6 @@ export async function POST(request: Request) {
       );
     }
 
-    console.info(
-      `Contact notification queued: id=${teamResult.data.id} to=${to}`,
-    );
-
     const userResult = await resend.emails.send({
       from,
       to: [payload.email],
@@ -89,10 +75,6 @@ export async function POST(request: Request) {
       console.error(
         "Resend user confirmation error:",
         userResult.error ?? "Missing email id in response",
-      );
-    } else {
-      console.info(
-        `Contact confirmation queued: id=${userResult.data.id} to=${payload.email}`,
       );
     }
 

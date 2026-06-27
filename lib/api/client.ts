@@ -1,6 +1,12 @@
 import { apiConfig } from "@/config/api";
 import { ApiError } from "@/lib/api/errors";
-import { getAccessToken } from "@/lib/auth/session";
+import { notifySessionChange } from "@/lib/auth/navigation";
+import {
+  getAccessToken,
+  getRefreshToken,
+  saveSession,
+} from "@/lib/auth/session";
+import type { TokenResponse } from "@/types/api";
 
 type RequestOptions = Omit<RequestInit, "body"> & {
   body?: unknown;
@@ -34,22 +40,81 @@ function getAuthHeaders(auth: boolean): Record<string, string> {
   return { Authorization: `Bearer ${token}` };
 }
 
+async function tryRefreshSession(): Promise<boolean> {
+  if (typeof window === "undefined") return false;
+
+  const refreshToken = getRefreshToken();
+  if (!refreshToken) return false;
+
+  try {
+    const response = await fetch(`${apiConfig.baseUrl}/api/auth/refresh`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ refresh_token: refreshToken }),
+    });
+
+    if (!response.ok) return false;
+
+    const tokens = (await response.json()) as TokenResponse;
+    saveSession(tokens);
+    notifySessionChange();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function executeRequest(
+  url: string,
+  init: RequestInit,
+  auth: boolean,
+  retried = false,
+): Promise<Response> {
+  const response = await fetch(url, init);
+
+  if (!auth || response.status !== 401 || retried) {
+    return response;
+  }
+
+  const refreshed = await tryRefreshSession();
+  if (!refreshed) {
+    return response;
+  }
+
+  const headers = new Headers(init.headers);
+  const token = getAccessToken();
+  if (token) {
+    headers.set("Authorization", `Bearer ${token}`);
+  } else {
+    headers.delete("Authorization");
+  }
+
+  return executeRequest(url, { ...init, headers }, auth, true);
+}
+
 export async function apiRequest<T>(
   path: string,
   options: RequestOptions = {},
 ): Promise<T> {
   const { body, auth = false, headers, ...rest } = options;
 
-  const response = await fetch(`${apiConfig.baseUrl}${path}`, {
-    ...rest,
-    headers: {
-      Accept: "application/json",
-      ...(body !== undefined ? { "Content-Type": "application/json" } : {}),
-      ...getAuthHeaders(auth),
-      ...headers,
+  const response = await executeRequest(
+    `${apiConfig.baseUrl}${path}`,
+    {
+      ...rest,
+      headers: {
+        Accept: "application/json",
+        ...(body !== undefined ? { "Content-Type": "application/json" } : {}),
+        ...getAuthHeaders(auth),
+        ...headers,
+      },
+      body: body !== undefined ? JSON.stringify(body) : undefined,
     },
-    body: body !== undefined ? JSON.stringify(body) : undefined,
-  });
+    auth,
+  );
 
   return parseResponse<T>(response);
 }
@@ -60,17 +125,21 @@ export async function apiFormRequest<T>(
 ): Promise<T> {
   const { body, auth = false, headers, ...rest } = options;
 
-  const response = await fetch(`${apiConfig.baseUrl}${path}`, {
-    ...rest,
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/x-www-form-urlencoded",
-      ...getAuthHeaders(auth),
-      ...headers,
+  const response = await executeRequest(
+    `${apiConfig.baseUrl}${path}`,
+    {
+      ...rest,
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+        ...getAuthHeaders(auth),
+        ...headers,
+      },
+      body: body.toString(),
     },
-    body: body.toString(),
-  });
+    auth,
+  );
 
   return parseResponse<T>(response);
 }

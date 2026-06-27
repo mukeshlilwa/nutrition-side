@@ -1,7 +1,6 @@
 import dynamic from "next/dynamic";
 import {
   BottomCtaSection,
-  FeatureCardsSection,
   FeaturesIconBar,
   HeroSection,
 } from "@/components/landing";
@@ -29,7 +28,6 @@ export default function Home() {
     <div className="landing-page bg-ghost-white-100">
       <HeroSection />
       <FeaturesIconBar />
-      <FeatureCardsSection />
       <ArticlesSection />
       <TestimonialsSection />
       <FaqSection />

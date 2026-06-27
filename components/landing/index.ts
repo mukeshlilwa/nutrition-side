@@ -1,7 +1,6 @@
 export { ArticlesSection } from "./articles-section";
 export { BottomCtaSection } from "./bottom-cta-section";
 export { FaqSection } from "./faq-section";
-export { FeatureCardsSection } from "./feature-cards-section";
 export { FeaturesIconBar } from "./features-icon-bar";
 export { HeroSection } from "./hero-section";
 export {

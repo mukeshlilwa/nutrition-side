@@ -60,7 +60,7 @@ function FaqItem({
         type="button"
         aria-expanded={isOpen}
         onClick={onToggle}
-        className="flex w-full cursor-pointer items-center justify-between gap-4 px-5 py-4 text-left text-[15px] font-semibold text-oxford-blue-500"
+        className="flex w-full cursor-pointer items-center justify-between gap-4 px-4 py-3.5 text-left text-[15px] font-semibold text-oxford-blue-500 sm:px-5"
       >
         <span>{question}</span>
         <ChevronDown
@@ -72,7 +72,7 @@ function FaqItem({
         />
       </button>
       {isOpen && (
-        <div className="border-t border-report-divider px-5 pb-5 pt-4">
+        <div className="border-t border-report-divider px-4 pb-4 pt-3 sm:px-5">
           <p className="text-body-sm leading-relaxed">{answer}</p>
         </div>
       )}
@@ -81,15 +81,15 @@ function FaqItem({
 }
 
 export function FaqSection() {
-  const [openIndex, setOpenIndex] = useState(0);
+  const [openIndex, setOpenIndex] = useState(-1);
 
   function handleToggle(index: number) {
     setOpenIndex((current) => (current === index ? -1 : index));
   }
 
   return (
-    <LandingSection tone="plain" id="faq">
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:gap-16 lg:items-start">
+    <LandingSection tone="plain" id="faq" className="py-10 sm:py-12 lg:py-14">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:gap-10 lg:items-start">
         <LandingSectionHeader
           eyebrow="Common Questions"
           title={
@@ -102,7 +102,7 @@ export function FaqSection() {
           className="mb-0 lg:sticky lg:top-28"
         />
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2.5">
           {faqs.map((faq, index) => (
             <FaqItem
               key={faq.question}

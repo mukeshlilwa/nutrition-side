@@ -641,8 +641,12 @@ body {
 }
 
 .features-marquee-track {
-  animation: features-marquee 38s linear infinite;
+  animation: features-marquee 45s linear infinite;
   will-change: transform;
+}
+
+.features-marquee:hover .features-marquee-track {
+  animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {

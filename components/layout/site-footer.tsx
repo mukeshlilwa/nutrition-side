@@ -1,19 +1,14 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { ProtectedLink } from "@/components/auth/protected-link";
+import type { ComponentType } from "react";
+import { FooterNavLink } from "@/components/layout/footer-nav-link";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { footerLinks, siteConfig, socialLinks } from "@/config/site";
-import { cn } from "@/lib/utils";
-
-const linkClass =
-  "text-[13px] text-oxford-blue-400 transition-colors hover:text-logo-green-600";
 
 const socialIcons: Record<
   (typeof socialLinks)[number]["label"],
-  React.ComponentType<{ className?: string }>
+  ComponentType<{ className?: string }>
 > = {
   Instagram: ({ className }) => (
     <svg
@@ -37,30 +32,6 @@ const socialIcons: Record<
     </svg>
   ),
 };
-
-function FooterLink({
-  href,
-  label,
-  protected: isProtected,
-}: {
-  href: string;
-  label: string;
-  protected?: boolean;
-}) {
-  if (isProtected) {
-    return (
-      <ProtectedLink href={href} className={linkClass}>
-        {label}
-      </ProtectedLink>
-    );
-  }
-
-  return (
-    <Link href={href} className={linkClass}>
-      {label}
-    </Link>
-  );
-}
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -95,7 +66,7 @@ export function SiteFooter() {
             <ul className="mt-3 space-y-2">
               {footerLinks.platform.map((link) => (
                 <li key={link.href}>
-                  <FooterLink
+                  <FooterNavLink
                     href={link.href}
                     label={link.label}
                     protected={"protected" in link && link.protected}
@@ -110,7 +81,7 @@ export function SiteFooter() {
             <ul className="mt-3 space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
-                  <FooterLink href={link.href} label={link.label} />
+                  <FooterNavLink href={link.href} label={link.label} />
                 </li>
               ))}
             </ul>
@@ -148,7 +119,6 @@ export function SiteFooter() {
           <p className="text-[12px] leading-normal text-oxford-blue-700">
             &copy; {year} {siteConfig.name}. All rights reserved.
           </p>
-          {/* <p className={cn("text-caption", "text-oxford-blue-300")}>{siteConfig.tagline}</p> */}
         </Container>
       </div>
     </footer>

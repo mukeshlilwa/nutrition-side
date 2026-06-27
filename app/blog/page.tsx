@@ -12,8 +12,7 @@ export default function BlogPage() {
         Blog
       </h1>
       <p className="text-body mt-4 max-w-2xl text-[15px] sm:text-lg">
-        Nutrition tips, research insights, and wellness articles. This page is a
-        placeholder — content coming soon.
+        Coming Soon...
       </p>
     </Container>
   );
