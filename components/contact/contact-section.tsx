@@ -1,7 +1,80 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
+import { FormAlert } from "@/components/auth/form-alert";
 import { Button, Container, Input, Label, Textarea } from "@/components/ui";
 
+type ContactForm = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  message: string;
+};
+
+const initialForm: ContactForm = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  message: "",
+};
+
 export function ContactSection() {
+  const [form, setForm] = useState<ContactForm>(initialForm);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  function updateField<K extends keyof ContactForm>(
+    field: K,
+    value: ContactForm[K],
+  ) {
+    setForm((current) => ({ ...current, [field]: value }));
+  }
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setFormError(null);
+    setSuccessMessage(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: form.firstName.trim(),
+          lastName: form.lastName.trim(),
+          email: form.email.trim().toLowerCase(),
+          message: form.message.trim(),
+        }),
+      });
+
+      const data = (await response.json().catch(() => null)) as
+        | { message?: string }
+        | null;
+
+      if (!response.ok) {
+        setFormError(
+          data?.message ??
+            "Unable to send your message. Please try again later.",
+        );
+        return;
+      }
+
+      setSuccessMessage(
+        data?.message ??
+          "Thanks for reaching out. We will get back to you as soon as possible.",
+      );
+      setForm(initialForm);
+    } catch {
+      setFormError("Unable to send your message. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   return (
     <section className="bg-gradient-section-soft py-14 lg:py-20">
       <Container size="wide">
@@ -34,7 +107,16 @@ export function ContactSection() {
               back to you within one business day.
             </p>
 
-            <form className="mt-8 space-y-5">
+            <form
+              onSubmit={handleSubmit}
+              className="mt-8 space-y-5"
+              noValidate
+            >
+              {formError && <FormAlert>{formError}</FormAlert>}
+              {successMessage && (
+                <FormAlert variant="success">{successMessage}</FormAlert>
+              )}
+
               <div className="grid gap-5 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">First Name</Label>
@@ -42,6 +124,9 @@ export function ContactSection() {
                     id="firstName"
                     name="firstName"
                     placeholder="Jane"
+                    value={form.firstName}
+                    onChange={(e) => updateField("firstName", e.target.value)}
+                    disabled={isSubmitting}
                     required
                   />
                 </div>
@@ -51,6 +136,9 @@ export function ContactSection() {
                     id="lastName"
                     name="lastName"
                     placeholder="Doe"
+                    value={form.lastName}
+                    onChange={(e) => updateField("lastName", e.target.value)}
+                    disabled={isSubmitting}
                     required
                   />
                 </div>
@@ -63,6 +151,9 @@ export function ContactSection() {
                   name="email"
                   type="email"
                   placeholder="you@example.com"
+                  value={form.email}
+                  onChange={(e) => updateField("email", e.target.value)}
+                  disabled={isSubmitting}
                   required
                 />
               </div>
@@ -73,12 +164,27 @@ export function ContactSection() {
                   id="message"
                   name="message"
                   placeholder="Tell us about your needs"
+                  value={form.message}
+                  onChange={(e) => updateField("message", e.target.value)}
+                  disabled={isSubmitting}
                   required
                 />
               </div>
 
-              <Button type="submit" size="lg" className="w-full sm:w-auto">
-                Send Message
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full sm:w-auto"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  "Send Message"
+                )}
               </Button>
             </form>
           </div>
