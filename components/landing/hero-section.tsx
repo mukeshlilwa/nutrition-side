@@ -15,11 +15,11 @@ export function HeroSection() {
   return (
     <section className="hero-fullscreen relative flex min-h-[88dvh] items-center overflow-hidden lg:min-h-[100dvh]">
       <Image
-        src="/images/hero-nutrition.png"
+        src="/images/hero-nutrition.webp"
         alt="Clinical dietitian reviewing a personalized meal plan with a client"
         fill
         priority
-        quality={80}
+        quality={75}
         className="object-cover object-center"
         sizes="100vw"
       />

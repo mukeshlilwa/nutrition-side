@@ -1,20 +1,18 @@
 import type { Metadata } from "next";
-import { Container } from "@/components/ui";
+import { FounderSection, TeamSection } from "@/components/about";
+import { founder } from "@/config/founder";
+import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "About",
+  description: `Learn about ${siteConfig.name} and founder ${founder.name} — building evidence-based nutrition tools for dietitians worldwide.`,
 };
 
 export default function AboutPage() {
   return (
-    <Container className="py-12 sm:py-20">
-      <h1 className="text-[clamp(1.75rem,5vw,2.25rem)] font-bold tracking-tight text-oxford-blue-500">
-        About
-      </h1>
-      <p className="text-body mt-4 max-w-2xl text-[15px] sm:text-lg">
-        Learn about our mission to make evidence-based nutrition accessible to
-        everyone. This page is a placeholder — content coming soon.
-      </p>
-    </Container>
+    <div className="landing-page bg-ghost-white-100">
+      <FounderSection />
+      <TeamSection />
+    </div>
   );
 }

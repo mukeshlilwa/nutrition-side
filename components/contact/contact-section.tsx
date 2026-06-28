@@ -87,9 +87,9 @@ export function ContactSection() {
                 src="/images/contact.jpg"
                 alt="Nutritionist consulting with a client"
                 fill
-                quality={95}
+                quality={75}
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 600px"
+                sizes="(max-width: 768px) 100vw, 480px"
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-oxford-blue-500/50 via-oxford-blue-500/10 to-transparent" />

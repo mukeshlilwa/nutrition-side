@@ -14,7 +14,7 @@ import {
 const articles = [
   {
     image:
-      "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&q=80",
+      "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=480&q=70&auto=format&fit=crop",
     tag: "Nutrition Basics",
     title: "Understanding Macronutrients for Better Health",
     excerpt:
@@ -24,7 +24,7 @@ const articles = [
   },
   {
     image:
-      "https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&q=80",
+      "https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=480&q=70&auto=format&fit=crop",
     tag: "Meal Planning",
     title: "5 Meal Prep Strategies for Busy Professionals",
     excerpt:
@@ -34,7 +34,7 @@ const articles = [
   },
   {
     image:
-      "https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?w=600&q=80",
+      "https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?w=480&q=70&auto=format&fit=crop",
     tag: "Wellness",
     title: "The Science Behind Gut Health and Nutrition",
     excerpt:
@@ -57,8 +57,10 @@ function ArticleCard({ article }: { article: (typeof articles)[number] }) {
           src={article.image}
           alt={article.title}
           fill
+          loading="lazy"
+          quality={75}
           className="object-cover"
-          sizes="(max-width: 768px) 100vw, 33vw"
+          sizes="(max-width: 768px) 100vw, 320px"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-oxford-blue-500/25 to-transparent" />
       </div>

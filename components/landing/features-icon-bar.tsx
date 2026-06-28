@@ -25,7 +25,7 @@ const categories = [
     label: "RECIPES",
     href: "/contact",
     alt: "Fresh healthy recipe with colorful whole-food ingredients",
-    image: "/images/services/recipes.png",
+    image: "/images/services/recipes.jpg",
   },
   {
     label: "RESOURCES",
@@ -37,7 +37,7 @@ const categories = [
     label: "BLOG",
     href: "/blog",
     alt: "Latest nutrition articles and evidence-based blog posts",
-    image: "/images/services/blog.png",
+    image: "/images/services/blog.jpg",
   },
 ] as const;
 
@@ -51,6 +51,8 @@ const CategoryCard = memo(function CategoryCard({ category }: { category: Catego
           src={category.image}
           alt={category.alt}
           fill
+          loading="lazy"
+          quality={75}
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 280px"
         />

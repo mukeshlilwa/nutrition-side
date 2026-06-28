@@ -26,11 +26,13 @@ export function BottomCtaSection() {
 
           <div className="relative h-56 lg:h-full lg:min-h-[280px]">
             <Image
-              src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80"
+              src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=640&q=70&auto=format&fit=crop"
               alt="Fresh healthy salad bowl"
               fill
+              loading="lazy"
+              quality={75}
               className="object-cover object-center lg:object-left"
-              sizes="(max-width: 1024px) 100vw, 50vw"
+              sizes="(max-width: 1024px) 100vw, 480px"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-ghost-white-100/95 via-ghost-white-100/30 to-transparent lg:from-ghost-white-100/85" />
           </div>
