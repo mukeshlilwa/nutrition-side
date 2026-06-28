@@ -13,6 +13,7 @@ export type TeamMember = {
   tier: TeamTier;
   image: string;
   imagePosition?: string;
+  imageScale?: number;
   description?: string;
 };
 
@@ -54,48 +55,40 @@ export const teamTierMeta: Record<
 
 export const teamMembers: TeamMember[] = [
   {
-    id: "founder",
-    name: "Dn. Rizwan Maqbool",
-    role: "Founder, TNS – The Nutrition Side",
-    tier: "leadership",
-    image: "/team/WhatsApp Image 2026-06-29 at 1.51.36 AM.jpeg",
-    imagePosition: "object-top",
-  },
-  {
     id: "product-lead",
-    name: "Team Member",
-    role: "",
+    name: "Prof. Dr. Ali Raza",
+    role: "Riphah International University",
     tier: "guides",
     image: "/team/WhatsApp Image 2026-06-29 at 1.48.21 AM.jpeg",
-    imagePosition: "object-top",
+    imagePosition: "object-[45%_25%]",
   },
   {
     id: "community-lead",
-    name: "Team Member",
-    role: "",
+    name: "Dn. Mariam Iftikhar",
+    role: "HOD Nutrition Department Islamia University Bahawalpur",
     tier: "guides",
     image: "/team/WhatsApp Image 2026-06-29 at 1.50.57 AM.jpeg",
     imagePosition: "object-[50%_40%]",
   },
   {
     id: "clinical-advisor",
-    name: "Team Member",
+    name: "Engr. Haseeb Ahmed",
     role: "Developer",
     tier: "devs",
     image: "/team/155911.jpg",
-    imagePosition: "object-top",
+    imagePosition: "object-[56%_22%]",
   },
   {
     id: "operations",
-    name: "Team Member",
-    role: "Head of Operations",
+    name: "Engr. Muhammad Bilal Hussain",
+    role: "NOC Officer Qatar",
     tier: "management",
-    image: "/team/WhatsApp Image 2026-06-29 at 1.36.34 AM.jpeg",
+    image: "/team/154613.jpg",
     imagePosition: "object-top",
   },
   {
     id: "clinical-nutritionist",
-    name: "Team Member",
+    name: "Engr. Mukesh Kumar Lilwa",
     role: "Developer",
     tier: "devs",
     image: "/team/155898.png",
@@ -103,68 +96,97 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: "registered-dietitian",
-    name: "Team Member",
-    role: "Registered Dietitian",
+    name: "Dn. Benish Naz",
+    role: "Clinical Dietitian",
     tier: "clinical",
     image: "/team/WhatsApp Image 2026-06-29 at 1.27.02 AM.jpeg",
     imagePosition: "object-top",
   },
   {
     id: "nutrition-specialist",
-    name: "Team Member",
-    role: "Nutrition Specialist",
+    name: "Dn. Noor ul Eza",
+    role: "Co-founder",
     tier: "clinical",
     image: "/team/WhatsApp Image 2026-06-29 at 1.40.31 AM.jpeg",
     imagePosition: "object-top",
   },
   {
     id: "research-content",
-    name: "Team Member",
-    role: "Research & Content",
+    name: "Dn. Saad Rafique",
+    role: "CEO Holistic Nutrition",
     tier: "clinical",
     image: "/team/WhatsApp Image 2026-06-29 at 12.58.05 AM.jpeg",
     imagePosition: "object-top",
   },
   {
     id: "nutrition-educator",
-    name: "Team Member",
-    role: "Nutrition Educator",
+    name: "Dn. Michal Mukhtyar",
+    role: "Clinical Dietitian",
     tier: "clinical",
     image: "/team/WhatsApp Image 2026-06-29 at 1.56.46 AM.jpeg",
     imagePosition: "object-top",
   },
   {
     id: "platform-engineer",
-    name: "Team Member",
-    role: "Platform Engineer",
+    name: "Dn. Muqaddas Abbasi",
+    role: "Clinical Dietitian",
     tier: "support",
     image: "/team/WhatsApp Image 2026-06-29 at 1.22.56 AM.jpeg",
     imagePosition: "object-top",
   },
   {
     id: "client-success",
-    name: "Team Member",
-    role: "Client Success",
+    name: "Dn. Syeda Farheen Zahra",
+    role: "Clinical Dietitian (USA)",
     tier: "support",
     image: "/team/WhatsApp Image 2026-06-29 at 1.24.39 AM.jpeg",
     imagePosition: "object-top",
   },
   {
-    id: "clinical-support",
-    name: "Team Member",
-    role: "Clinical Support",
+    id: "master-trainer-pfa",
+    name: "Dn. Muneeba Ghaffar",
+    role: "Master trainer PFA",
     tier: "support",
+    image: "/team/154614.jpg",
+    imagePosition: "object-[50%_28%]",
+    imageScale: 1.35,
+  },
+  {
+    id: "clinical-support",
+    name: "Engr. Usman Sial",
+    role: "Developer (Korea)",
+    tier: "devs",
     image: "/team/WhatsApp Image 2026-06-29 at 1.32.41 AM.jpeg",
-    imagePosition: "object-top",
+    imagePosition: "object-[50%_22%]",
+    imageScale: 1.4,
   },
 ];
+
+const mainGridOrder: Record<string, number> = {
+  "nutrition-specialist": 1,
+  "registered-dietitian": 2,
+  "nutrition-educator": 3,
+  "platform-engineer": 4,
+  "research-content": 5,
+  "master-trainer-pfa": 6,
+  "client-success": 7,
+  operations: 8,
+};
+
+function isDeveloper(member: TeamMember) {
+  return /developer/i.test(member.role);
+}
 
 export function getTeamByTier(tier: TeamTier) {
   return teamMembers.filter((member) => member.tier === tier);
 }
 
+export function getDevelopers() {
+  return teamMembers.filter(isDeveloper);
+}
+
 export function getTeamMembersExcludingGuides() {
   return teamMembers
-    .filter((member) => member.tier !== "guides" && member.tier !== "devs")
-    .sort((a, b) => teamTierMeta[a.tier].order - teamTierMeta[b.tier].order);
+    .filter((member) => member.tier !== "guides" && !isDeveloper(member))
+    .sort((a, b) => (mainGridOrder[a.id] ?? 99) - (mainGridOrder[b.id] ?? 99));
 }

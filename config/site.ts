@@ -8,7 +8,7 @@ export const siteConfig = {
 
 export const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/calculator", label: "Calculator" },
+  { href: "/calculator", label: "Clinical Tools" },
   { href: "/about", label: "About Us" },
   // { href: "/professionals", label: "For Professionals", hasDropdown: true },
 ] as const;
